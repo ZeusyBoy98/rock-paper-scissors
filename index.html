@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Scissors Rock</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .title {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            font-size: 80px;
+            justify-self: center;
+        }
+
+        .butt {
+            color: white;
+            background-color: black;
+            position: relative;
+            left: 400px;
+            text-align:center;
+            border-radius: 20px;
+        }
+
+        .result {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 40px;
+        }
+
+        .round {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+        }
+
+        .reload {
+            color:red;
+            background-color: black;
+            position: absolute;
+            top: 330px;
+        }
+
+        img {
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Paper, Scissors, Rock</div>
+    <button class="butt" id="but1">
+        Paper
+        <img src="images/paper.jpg"
+        width="100"
+        >
+    </button>
+    <button class="butt" id="but2">
+        <img src="images/scissors.jpg"
+        width="100"
+        >
+        Scissors
+    </button>
+    <button class="butt" id="but3">
+        <img src="images/rock.jpg"
+        width="100"
+        >
+        Rock
+    </button>
+    <div class="round" id="deez"></div>
+    <div class="result"></div>
+    <div class="round" id="score"></div>
+    <button class="reload">Restart</button>
+    <script>
+        const but1 = document.querySelector("#but1");
+        const but2 = document.querySelector("#but2");
+        const but3 = document.querySelector("#but3");
+        const res = document.querySelector(".result");
+        const rou = document.querySelector("#deez");
+        const rel = document.querySelector(".reload");
+        const buttz = document.querySelectorAll(".butt");
+        const scores = document.querySelector("#score");
+
+        function getComputerChoice() {
+            let computerChoice = "";
+            let rand = Math.floor(Math.random() * 3) + 1;
+            if (rand == 1) computerChoice = "rock";
+            if (rand == 2) computerChoice = "paper";
+            if (rand == 3) computerChoice = "scissors";
+            return computerChoice;
+        }
+
+        let humanScore = 0;
+        let computerScore = 0;
+        let rounds = 1;
+
+        function playRound(humanChoice, computerChoice) {
+            let human = humanChoice.toLowerCase();
+            let computer = (computerChoice);
+            if (human == "rock" && computer == "rock") rou.textContent=`Round: ${rounds}, You Tie`;
+            else if (human == "rock" && computer == "paper") {
+            rou.textContent=`Round: ${rounds}, You Lose`;
+            computerScore++;
+            }
+            else if (human == "rock" && computer == "scissors") {
+            rou.textContent=`Round: ${rounds}, You Win`;
+            humanScore++;
+            }  
+            else if (human == "paper" && computer == "rock") {
+                rou.textContent=`Round: ${rounds}, You Win`;
+                humanScore++;
+            }
+            else if (human == "paper" && computer == "paper") rou.textContent=`Round: ${rounds}, You Tie`;
+            else if (human == "paper" && computer == "scissors") {
+                rou.textContent=`Round: ${rounds}, You Lose`;
+                computerScore++;
+            }
+            else if (human == "scissors" && computer == "rock") {
+                rou.textContent=`Round: ${rounds}, You Lose`;
+                computerScore++;
+            }
+            else if (human == "scissors" && computer == "paper") {
+                rou.textContent=`Round: ${rounds}, You Win`;
+                humanScore++;
+            }
+            else if (human == "scissors" && computer == "scissors") rou.textContent=`Round: ${rounds}, You Tie`;
+            }
+        
+        function finish() {
+            scores.textContent=`Humanity: ${humanScore}, Computer: ${computerScore}`;
+            if (rounds == 6) {
+                for (let i = 0; i < buttz.length; i++) {
+                    buttz[i].disabled = true;
+                }
+                if (humanScore > computerScore) res.textContent = "Humanity Wins!!!";
+                else if (humanScore == computerScore) res.textContent = "It's a draw!!!";
+                else if (humanScore < computerScore) res.textContent = "Prepare for the robot apocalypse...";
+                else if (humanScore == 69) res.textContent = "How did you do this?"
+            }
+        }
+        
+        function playGame() {
+            but1.addEventListener("click", function paper() {
+                let humanChoice="paper"
+                let computerChoice = getComputerChoice();
+                playRound(humanChoice, computerChoice);
+                rounds++;
+                finish();
+                //debug
+                console.log(humanChoice);
+                console.log(computerChoice);
+                console.log(humanScore);                    
+                console.log(computerScore);
+            });
+            but2.addEventListener("click", function scissors() {
+                let humanChoice="scissors"
+                let computerChoice = getComputerChoice();
+                playRound(humanChoice, computerChoice);
+                rounds++;
+                finish();
+                //debug
+                console.log(humanChoice);
+                console.log(computerChoice);
+                console.log(humanScore);
+                console.log(computerScore);
+            });
+            but3.addEventListener("click", function rock() {
+                let humanChoice="rock"
+                let computerChoice = getComputerChoice();
+                playRound(humanChoice, computerChoice);
+                rounds++;
+                finish();
+                //debug
+                console.log(humanChoice);
+                console.log(computerChoice);
+                console.log(humanScore);
+                console.log(computerScore);
+            });
+        }
+
+        rel.addEventListener("click", function reload() {window.location.reload()});
+
+        playGame();
+    </script>
+</body>
+</html>
